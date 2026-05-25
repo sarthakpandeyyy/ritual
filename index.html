@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritual CV Website</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #050505;
+        }
+        /* Custom Glowing & Animation Effects */
+        .glow-red {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+        .glow-red:focus {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+        }
+        
+        /* Roles Custom Sparks & Glows */
+        .role-bitty { border-color: #3b82f6; color: #3b82f6; text-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+        .role-ritty { border-color: #a855f7; color: #a855f7; text-shadow: 0 0 10px rgba(168, 85, 247, 0.6); animation: pulse 2s infinite; }
+        .role-ritualist { border-color: #22c55e; color: #22c55e; text-shadow: 0 0 15px rgba(34, 197, 94, 0.8); animation: pulse 1.5s infinite; }
+        .role-zealot { border-color: #bc13fe; color: #d946ef; text-shadow: 0 0 20px rgba(217, 70, 239, 0.9); animation: pulse 1s infinite; }
+        .role-radiant { border-color: #eab308; color: #eab308; text-shadow: 0 0 30px rgba(234, 179, 8, 1); animation: heavy-glow 0.8s infinite alternate; }
+
+        @keyframes heavy-glow {
+            from { box-shadow: 0 0 10px rgba(234, 179, 8, 0.5), inset 0 0 5px rgba(234, 179, 8, 0.3); }
+            to { box-shadow: 0 0 25px rgba(234, 179, 8, 0.9), inset 0 0 10px rgba(234, 179, 8, 0.5); }
+        }
+
+        /* Background grid design */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(239, 68, 68, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(239, 68, 68, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen bg-grid relative overflow-x-hidden pb-12">
+
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-red-600/10 blur-[120px] pointer-events-none rounded-full"></div>
+
+    <header class="border-b border-red-900/40 bg-black/60 backdrop-blur-md sticky top-0 z-50 px-4 py-3 sm:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-black border border-red-600 rounded-lg p-1.5 flex items-center justify-center shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                    <svg viewBox="0 0 100 100" class="w-full h-full fill-none stroke-white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M50 10 L90 50 L50 90 L10 50 Z"/>
+                        <path d="M35 35 L65 65 M65 35 L35 65"/>
+                    </svg>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold tracking-wider text-white">
+                    RITUAL <span class="text-red-500">CV</                </h1>
+            </div>
+            
+            <button id="connectWalletBtn" onclick="connectWallet()" class="px-5 py-2 bg-transparent border border-red-600 hover:bg-red-600/20 text-red-500 hover:text-white rounded-xl font-medium transition-all duration-300 shadow-[0_0_10px_rgba(239,68,68,0.1)] text-sm sm:text-base">
+                <i class="fa-solid fa-wallet mr-2"></i> Connect Wallet
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+        
+        <section class="lg:col-span-5 bg-black/80 border border-zinc-800/80 rounded-2xl p-6 glow-red transition-all duration-500">
+            <h2 class="text-lg font-semibold text-red-500 mb-6 flex items-center gap-2 border-b border-zinc-800 pb-3">
+                <i class="fa-solid fa-sliders text-sm"></i> Enter Your Ritual Credentials
+            </h2>
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Full Name</label>
+                    <input type="text" id="inputName" oninput="updatePreview()" placeholder="Sarthak Pandey" 
+                        class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">X (Twitter) Username</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-zinc-500">@</span>
+                        <input type="text" id="inputX" oninput="handleXDetails()" placeholder="username" 
+                            class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl pl-9 pr-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Discord ID</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-zinc-500"><i class="fa-brands fa-discord"></i></span>
+                        <input type="text" id="inputDiscord" oninput="updatePreview()" placeholder="username#0000" 
+                            class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Ritual Joining Date</label>
+                    <input type="date" id="inputDate" onchange="updatePreview()" 
+                        class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Select Ritual Roles (Multiple)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-3 cursor-pointer hover:border-blue-500/50 transition-colors">
+                            <input type="checkbox" value="Bitty" onchange="updateRoles()" class="accent-blue-500 w-4 h-4">
+                            <span class="text-sm font-medium text-blue-400">Bitty</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-3 cursor-pointer hover:border-purple-500/50 transition-colors">
+                            <input type="checkbox" value="Ritty" onchange="updateRoles()" class="accent-purple-500 w-4 h-4">
+                            <span class="text-sm font-medium text-purple-400">Ritty ✨</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-3 cursor-pointer hover:border-green-500/50 transition-colors">
+                            <input type="checkbox" value="Ritualist" onchange="updateRoles()" class="accent-green-500 w-4 h-4">
+                            <span class="text-sm font-medium text-green-400">Ritualist 🔥</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-3 cursor-pointer hover:border-fuchsia-500/50 transition-colors">
+                            <input type="checkbox" value="Zealot" onchange="updateRoles()" class="accent-fuchsia-500 w-4 h-4">
+                            <span class="text-sm font-medium text-fuchsia-400">Zealot ⚡</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-3 cursor-pointer hover:border-yellow-500/50 transition-all col-span-1 sm:col-span-2">
+                            <input type="checkbox" value="Radiant" onchange="updateRoles()" class="accent-yellow-500 w-4 h-4">
+                            <span class="text-sm font-bold text-yellow-500 tracking-wide animate-pulse">Radiant Ritualist 🌟👑</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lg:col-span-7 flex flex-col justify-between gap-6">
+            <div class="w-full bg-zinc-950 border-2 border-red-950 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl shadow-red-950/20 flex-grow">
+                <div class="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-red-600/20 rounded-tr-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-red-600/20 rounded-bl-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-zinc-900 pb-6">
+                    <div class="flex items-center gap-4 w-full sm:w-auto">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-amber-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-1000"></div>
+                            <img id="previewAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=ritual" alt="Avatar" 
+                                class="relative w-20 h-20 rounded-full border-2 border-red-500 bg-black object-cover transition-transform duration-300">
+                        </div>
+                        <div>
+                            <h3 id="previewName" class="text-2xl font-bold text-white tracking-wide">Sarthak Pandey</h3>
+                            <p id="previewX" class="text-sm text-zinc-500">@username</p>
+                        </div>
+                    </div>
+                    <div class="bg-red-950/40 border border-red-800/60 rounded-xl px-4 py-1.5 text-center w-full sm:w-auto">
+                        <span class="text-xs uppercase tracking-widest text-red-400 font-semibold">Ritual Testnet</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="bg-zinc-900/40 border border-zinc-900 rounded-xl p-4">
+                        <span class="block text-xs font-semibold text-zinc-500 uppercase mb-1">Discord Handle</span>
+                        <div class="flex items-center gap-2 text-zinc-200 font-medium">
+                            <i class="fa-brands fa-discord text-purple-400"></i>
+                            <span id="previewDiscord">—</span>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-900/40 border border-zinc-900 rounded-xl p-4">
+                        <span class="block text-xs font-semibold text-zinc-500 uppercase mb-1">Ritual Joining Date</span>
+                        <div class="flex items-center gap-2 text-zinc-200 font-medium">
+                            <i class="fa-solid fa-calendar-days text-red-400"></i>
+                            <span id="previewDate">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <span class="block text-xs font-semibold text-zinc-500 uppercase mb-3">Verified Ritual Ecosystem Roles</span>
+                    <div id="previewRolesContainer" class="flex flex-wrap gap-3 min-h-[44px] items-center p-3 bg-zinc-900/20 border border-dashed border-zinc-800 rounded-xl">
+                        <p id="noRolesText" class="text-xs text-zinc-600 italic">No roles selected yet</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="mintOnChainCV()" class="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-bold py-4 rounded-2xl shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] transition-all duration-300 transform active:scale-[0.99] flex items-center justify-center gap-3 tracking-wider text-base sm:text-lg">
+                <i class="fa-solid fa-cubes-stacked"></i> MINT RITUAL ON-CHAIN CV
+            </button>
+        </section>
+
+    </main>
+
+    <div id="statusModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-zinc-950 border-2 border-red-500 max-w-md w-full rounded-2xl p-6 text-center shadow-[0_0_50px_rgba(239,68,68,0.3)] transform scale-95 transition-transform">
+            <div id="modalIcon" class="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 border border-red-500/30">
+                <i class="fa-solid fa-circle-notch"></i>
+            </div>
+            <h4 id="modalTitle" class="text-xl font-bold text-white mb-2">Processing Transaction</h4>
+            <p id="modalBody" class="text-sm text-zinc-400 mb-6">Communicating with wallet extension...</p>
+            <button onclick="closeModal()" class="px-6 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 rounded-xl text-sm transition-colors">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION: Aapka actual deployed smart contract address humne niche set kar diya hai.
+        const contractAddress = "0xf94dF544419d2BF3550F544c94470DD48a6F48C4"; 
+
+        // Smart Contract ABI Definition
+        const contractABI = [
+            "function mintCV(string fullName, string xUsername, string discordId, string joiningDate, string[] roles) public"
+        ];
+
+        let userAddress = null;
+        let provider = null;
+        let signer = null;
+
+        // Reactive Real-time inputs logic
+        function updatePreview() {
+            const name = document.getElementById('inputName').value.trim();
+            const discord = document.getElementById('inputDiscord').value.trim();
+            const date = document.getElementById('inputDate').value;
+
+            document.getElementById('previewName').innerText = name ? name : "Sarthak Pandey";
+            document.getElementById('previewDiscord').innerText = discord ? discord : "—";
+            
+            if (date) {
+                const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                document.getElementById('previewDate').innerText = formattedDate;
+            } else {
+                document.getElementById('previewDate').innerText = "—";
+            }
+        }
+
+        // Fetching profile pic based on X input 
+        function handleXDetails() {
+            const xUser = document.getElementById('inputX').value.trim();
+            const previewX = document.getElementById('previewX');
+            const previewAvatar = document.getElementById('previewAvatar');
+
+            if(xUser) {
+                previewX.innerText = `@${xUser}`;
+                previewAvatar.src = `https://unavatar.io/twitter/${xUser}?fallback=https://api.dicebear.com/7.x/identicon/svg?seed=${xUser}`;
+            } else {
+                previewX.innerText = "@username";
+                previewAvatar.src = "https://api.dicebear.com/7.x/bottts/svg?seed=ritual";
+            }
+        }
+
+        // Handle Active Selection of Roles
+        function updateRoles() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const container = document.getElementById('previewRolesContainer');
+            const noRolesText = document.getElementById('noRolesText');
+            
+            container.innerHTML = "";
+            let checkedCount = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    checkedCount++;
+                    const badge = document.createElement('span');
+                    badge.className = "px-3 py-1 text-xs font-bold border rounded-lg tracking-wide uppercase transition-all ";
+                    
+                    if (cb.value === 'Bitty') {
+                        badge.classList.add('role-bitty');
+                        badge.innerText = "Bitty 💧";
+                    } else if (cb.value === 'Ritty') {
+                        badge.classList.add('role-ritty');
+                        badge.innerText = "Ritty ✨";
+                    } else if (cb.value === 'Ritualist') {
+                        badge.classList.add('role-ritualist');
+                        badge.innerText = "Ritualist 🔥";
+                    } else if (cb.value === 'Zealot') {
+                        badge.classList.add('role-zealot');
+                        badge.innerText = "Zealot ⚡";
+                    } else if (cb.value === 'Radiant') {
+                        badge.classList.add('role-radiant');
+                        badge.innerText = "Radiant Ritualist 👑👑";
+                    }
+                    container.appendChild(badge);
+                }
+            });
+
+            if (checkedCount === 0) {
+                container.appendChild(noRolesText);
+            }
+        }
+
+        // MULTI-WALLET CONFLICT FIXING CONNECT LOGIC
+        async function connectWallet() {
+            const btn = document.getElementById('connectWalletBtn');
+            const activeProvider = window.ethereum?.providers?.find(p => p.isMetaMask) || window.ethereum;
+            
+            if (activeProvider) {
+                try {
+                    btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Connecting...`;
+                    
+                    provider = new ethers.BrowserProvider(activeProvider);
+                    const accounts = await provider.send("eth_requestAccounts", []);
+                    userAddress = accounts[0];
+                    signer = await provider.getSigner();
+
+                    const shortenedAddress = `${userAddress.substring(0, 6)}...${userAddress.substring(userAddress.length - 4)}`;
+                    
+                    btn.innerHTML = `<i class="fa-solid fa-circle-check text-green-500 mr-2"></i> ${shortenedAddress}`;
+                    btn.className = "px-5 py-2 bg-transparent border border-green-600 text-green-400 rounded-xl font-medium transition-all duration-300 text-sm sm:text-base";
+                    
+                } catch (error) {
+                    console.error("Wallet connection failed:", error);
+                    alert("Connection rejected or encountered an error.");
+                    resetWalletUI();
+                }
+            } else {
+                alert("Web3 Wallet window injection missing! Please make sure your extension is active. Try running this file through a local environment like VS Code Live Server.");
+            }
+        }
+
+        function resetWalletUI() {
+            userAddress = null;
+            const btn = document.getElementById('connectWalletBtn');
+            btn.innerHTML = `<i class="fa-solid fa-wallet mr-2"></i> Connect Wallet`;
+            btn.className = "px-5 py-2 bg-transparent border border-red-600 hover:bg-red-600/20 text-red-500 hover:text-white rounded-xl font-medium transition-all duration-300 text-sm sm:text-base";
+        }
+
+        // REAL SMART CONTRACT MINT TRANSACTION METHOD
+        async function mintOnChainCV() {
+            const modal = document.getElementById('statusModal');
+            const icon = document.getElementById('modalIcon');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            if (!userAddress || !signer) {
+                alert("Please connect your Web3 wallet first!");
+                return;
+            }
+
+            // Fetch current state inputs
+            const fullName = document.getElementById('inputName').value.trim() || "Sarthak Pandey";
+            const xUsername = document.getElementById('inputX').value.trim() || "username";
+            const discordId = document.getElementById('inputDiscord').value.trim() || "—";
+            const joiningDate = document.getElementById('inputDate').value || "—";
+            
+            // Collect roles
+            const roles = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => roles.push(cb.value));
+
+            // Launch Status Modal
+            modal.classList.remove('hidden');
+            icon.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-red-500"></i>`;
+            title.innerText = "Confirm in Wallet...";
+            body.innerText = "Please open your wallet extension popup to sign and authorize the contract interaction.";
+
+            try {
+                // Initialize Contract Instance using Ethers.js
+                const contract = new ethers.Contract(contractAddress, contractABI, signer);
+                
+                // Execute Contract Write Call 
+                const tx = await contract.mintCV(fullName, xUsername, discordId, joiningDate, roles);
+                
+                // Update UI state to pending block indexing
+                title.innerText = "Transaction Pending...";
+                body.innerHTML = `Transaction broadcasted successfully! Waiting for block validation... <br><span class="text-zinc-500 text-xs font-mono break-all mt-2 block">Hash: ${tx.hash}</span>`;
+                
+                // Wait for miners confirmation 
+                const receipt = await tx.wait();
+                
+                // Success Trigger UI state update
+                icon.innerHTML = `<i class="fa-solid fa-award text-yellow-500 text-3xl"></i>`;
+                icon.className = "w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500/40 shadow-[0_0_15px_rgba(234,179,8,0.4)]";
+                title.innerText = "CV Minted Successfully!";
+                body.innerHTML = `Your data matrix has successfully synced with the Ritual Testnet blocks.<br><a href="https://maple.ritual.net/tx/${receipt.hash}" target="_blank" class="text-red-500 text-xs font-mono underline block mt-2">View Verified Transaction Receipt</a>`;
+
+            } catch (err) {
+                console.error(err);
+                icon.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 text-3xl"></i>`;
+                title.innerText = "Transaction Cancelled";
+                body.innerText = err.reason || err.message || "User denied transaction signature or execution reverted.";
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('statusModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
