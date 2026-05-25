@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Ritual CV Website</title>
 
+<!-- TAILWIND -->
+
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<!-- FONT AWESOME -->
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&display=swap"
+<!-- FONT -->
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&display=swap"
 rel="stylesheet"/>
+
+<!-- ETHERS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+
+<!-- HTML2CANVAS -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -41,39 +54,42 @@ text-transform:uppercase;
 }
 
 </style>
+
 </head>
 
 <body class="text-white bg-grid min-h-screen">
 
-<!-- TOP GLOW -->
+<!-- GLOW -->
 
-<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[250px] bg-red-600/10 blur-[90px] rounded-full"></div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[240px] bg-red-600/10 blur-[90px] rounded-full"></div>
 
 <!-- HEADER -->
 
-<header class="border-b border-red-900/40 bg-black/60 backdrop-blur-md sticky top-0 z-50 px-5 py-4">
+<header class="border-b border-red-900/40 bg-black/70 backdrop-blur-md sticky top-0 z-50 px-5 py-4">
 
 <div class="max-w-7xl mx-auto flex items-center justify-between">
 
 <div class="flex items-center gap-3">
 
-<div class="w-11 h-11 border border-red-600 rounded-xl flex items-center justify-center">
+<div class="w-12 h-12 rounded-xl border border-red-600 flex items-center justify-center">
 
 <i class="fa-brands fa-codepen text-white text-xl"></i>
 
 </div>
 
-<h1 class="text-4xl font-black tracking-wide">
+<h1 class="text-2xl md:text-4xl font-black tracking-wide">
 
-RITUAL <span class="text-red-600">CV WEBSITE</span>
+RITUAL <span class="text-red-600">CV 
 
 </h1>
 
 </div>
 
-<button class="border border-red-600 text-red-500 rounded-2xl px-6 py-3">
+<button id="connectWalletBtn"
+onclick="connectWallet()"
+class="border border-red-600 text-red-500 rounded-2xl px-5 py-3 hover:bg-red-600/10">
 
-0xf94f...4248
+Connect Wallet
 
 </button>
 
@@ -83,13 +99,13 @@ RITUAL <span class="text-red-600">CV WEBSITE</span>
 
 <!-- MAIN -->
 
-<main class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 px-6 py-10">
+<main class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 px-5 py-10">
 
 <!-- LEFT -->
 
 <div class="bg-black/80 border border-red-900/30 rounded-[30px] p-8">
 
-<h2 class="text-red-500 text-3xl font-black mb-8">
+<h2 class="text-red-500 text-2xl font-black mb-8">
 
 ⚚ ENTER YOUR RITUAL CREDENTIALS
 
@@ -97,58 +113,78 @@ RITUAL <span class="text-red-600">CV WEBSITE</span>
 
 <div class="space-y-6">
 
+<!-- NAME -->
+
 <div>
 
 <label class="text-zinc-400 text-sm uppercase block mb-3">
+
 Full Name
+
 </label>
 
-<input id="inputName"
+<input
+id="inputName"
 type="text"
 placeholder="sarthak"
 oninput="updatePreview()"
-class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-xl outline-none"/>
+class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-lg outline-none"/>
 
 </div>
+
+<!-- TWITTER -->
 
 <div>
 
 <label class="text-zinc-400 text-sm uppercase block mb-3">
+
 X (Twitter) Username
+
 </label>
 
-<input id="inputX"
+<input
+id="inputX"
 type="text"
 placeholder="sarthakct"
 oninput="handleXDetails()"
-class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-xl outline-none"/>
+class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-lg outline-none"/>
 
 </div>
+
+<!-- DISCORD -->
 
 <div>
 
 <label class="text-zinc-400 text-sm uppercase block mb-3">
+
 Discord ID
+
 </label>
 
-<input id="inputDiscord"
+<input
+id="inputDiscord"
 type="text"
 placeholder="sarthak_pp"
 oninput="updatePreview()"
-class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-xl outline-none"/>
+class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-lg outline-none"/>
 
 </div>
+
+<!-- DATE -->
 
 <div>
 
 <label class="text-zinc-400 text-sm uppercase block mb-3">
+
 Ritual Joining Date
+
 </label>
 
-<input id="inputDate"
+<input
+id="inputDate"
 type="date"
 onchange="updatePreview()"
-class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-xl outline-none"/>
+class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-lg outline-none"/>
 
 </div>
 
@@ -158,13 +194,13 @@ class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-5 py-5 text-xl o
 
 <label class="text-zinc-400 text-sm uppercase block mb-4">
 
-Select Ritual Roles (Multiple)
+Select Ritual Roles
 
 </label>
 
 <div class="grid grid-cols-2 gap-4">
 
-<label class="border border-blue-500 rounded-2xl p-5 flex items-center gap-3 text-blue-400 text-2xl">
+<label class="border border-blue-500 rounded-2xl p-5 flex items-center gap-3 text-blue-400">
 
 <input type="checkbox" value="Bitty" onchange="updateRoles()">
 
@@ -172,7 +208,7 @@ Bitty
 
 </label>
 
-<label class="border border-purple-500 rounded-2xl p-5 flex items-center gap-3 text-purple-400 text-2xl">
+<label class="border border-purple-500 rounded-2xl p-5 flex items-center gap-3 text-purple-400">
 
 <input type="checkbox" value="Ritty" onchange="updateRoles()">
 
@@ -180,7 +216,7 @@ Ritty
 
 </label>
 
-<label class="border border-green-500 rounded-2xl p-5 flex items-center gap-3 text-green-400 text-2xl">
+<label class="border border-green-500 rounded-2xl p-5 flex items-center gap-3 text-green-400">
 
 <input type="checkbox" value="Ritualist" onchange="updateRoles()">
 
@@ -188,7 +224,7 @@ Ritualist
 
 </label>
 
-<label class="border border-fuchsia-500 rounded-2xl p-5 flex items-center gap-3 text-fuchsia-400 text-2xl">
+<label class="border border-fuchsia-500 rounded-2xl p-5 flex items-center gap-3 text-fuchsia-400">
 
 <input type="checkbox" value="Zealot" onchange="updateRoles()">
 
@@ -196,7 +232,7 @@ Zealot
 
 </label>
 
-<label class="border border-yellow-500 rounded-2xl p-5 flex items-center gap-3 text-yellow-400 text-2xl col-span-2">
+<label class="border border-yellow-500 rounded-2xl p-5 flex items-center gap-3 text-yellow-400 col-span-2">
 
 <input type="checkbox" value="Radiant" onchange="updateRoles()">
 
@@ -216,12 +252,11 @@ Radiant Ritualist
 
 <div class="space-y-8">
 
-<!-- LIVE CARD -->
+<!-- CARD -->
 
-<div id="livePreviewCard"
+<div
+id="livePreviewCard"
 class="bg-black border border-red-600/40 rounded-[32px] p-8 relative overflow-hidden shadow-[0_0_60px_rgba(255,0,0,.12)]">
-
-<div class="absolute inset-0 rounded-[32px] shadow-[0_0_80px_rgba(255,0,0,.1)]"></div>
 
 <div class="flex items-center justify-between border-b border-red-900/30 pb-6">
 
@@ -229,9 +264,10 @@ class="bg-black border border-red-600/40 rounded-[32px] p-8 relative overflow-hi
 
 <div class="relative">
 
-<div class="absolute inset-0 bg-red-500 blur-[16px] opacity-50 rounded-full"></div>
+<div class="absolute inset-0 bg-red-500 blur-[18px] opacity-50 rounded-full"></div>
 
-<img id="previewAvatar"
+<img
+id="previewAvatar"
 crossorigin="anonymous"
 src="https://api.dicebear.com/7.x/bottts/png?seed=ritual"
 class="relative w-24 h-24 rounded-full border-2 border-red-500 object-cover bg-black"/>
@@ -260,7 +296,7 @@ class="text-red-500 text-2xl mt-1">
 
 <div class="border border-red-500 rounded-2xl px-6 py-3 text-red-400 uppercase tracking-widest">
 
-Ritual Testnet
+RITUAL TESTNET
 
 </div>
 
@@ -278,7 +314,7 @@ DISCORD HANDLE
 
 </div>
 
-<div class="flex items-center gap-3 text-3xl">
+<div class="flex items-center gap-3 text-2xl">
 
 <i class="fa-brands fa-discord text-purple-400"></i>
 
@@ -300,7 +336,7 @@ RITUAL JOINING DATE
 
 </div>
 
-<div class="flex items-center gap-3 text-2xl">
+<div class="flex items-center gap-3 text-xl">
 
 <i class="fa-solid fa-calendar text-red-500"></i>
 
@@ -335,10 +371,11 @@ class="flex flex-wrap gap-4 justify-center">
 
 </div>
 
-<!-- BUTTON -->
+<!-- MINT BUTTON -->
 
-<button onclick="mintOnChainCV()"
-class="w-full bg-gradient-to-r from-red-700 to-red-500 hover:opacity-90 text-white text-3xl font-black py-6 rounded-3xl">
+<button
+onclick="mintOnChainCV()"
+class="w-full bg-gradient-to-r from-red-700 to-red-500 hover:opacity-90 text-white text-2xl font-black py-6 rounded-3xl">
 
 ⛓️ MINT RITUAL ON-CHAIN CV
 
@@ -350,33 +387,45 @@ class="w-full bg-gradient-to-r from-red-700 to-red-500 hover:opacity-90 text-whi
 
 <!-- MODAL -->
 
-<div id="statusModal"
+<div
+id="statusModal"
 class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50 p-5">
 
 <div class="w-full max-w-2xl bg-[#050505] border border-red-600/40 rounded-[32px] p-6 relative">
 
-<button onclick="closeModal()"
+<!-- CLOSE -->
+
+<button
+onclick="closeModal()"
 class="absolute top-4 right-5 text-zinc-500 text-4xl">
 
 ×
 
 </button>
 
+<!-- STATUS -->
+
 <div class="text-center">
 
-<div class="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-5">
+<div
+id="modalIcon"
+class="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-5">
 
 <i class="fa-solid fa-circle-check text-green-500 text-5xl"></i>
 
 </div>
 
-<h2 class="text-5xl font-black text-green-400 mb-4">
+<h2
+id="modalTitle"
+class="text-4xl font-black text-green-400 mb-4">
 
 🎉 CONGRATULATIONS!
 
 </h2>
 
-<p class="text-zinc-300 text-2xl">
+<p
+id="modalBody"
+class="text-zinc-300 text-xl">
 
 Your Ritual CV has been minted successfully!
 
@@ -386,22 +435,23 @@ Your Ritual CV has been minted successfully!
 
 <!-- CARD -->
 
-<div id="modalTargetCard"
-class="mt-8">
+<div id="modalTargetCard" class="mt-8"></div>
 
-</div>
+<!-- BUTTONS -->
 
-<!-- BTN -->
+<div id="modalButtons" class="hidden">
 
-<button onclick="downloadCardImage()"
-class="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white text-2xl font-black py-5 rounded-2xl">
+<button
+onclick="downloadCardImage()"
+class="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white text-xl font-black py-5 rounded-2xl">
 
 ⬇ DOWNLOAD RITUAL CARD (.PNG)
 
 </button>
 
-<button onclick="closeModal()"
-class="mt-4 w-full bg-zinc-950 border border-zinc-800 text-white text-2xl py-5 rounded-2xl">
+<button
+onclick="closeModal()"
+class="mt-4 w-full bg-zinc-950 border border-zinc-800 text-white text-xl py-5 rounded-2xl">
 
 CLOSE
 
@@ -411,7 +461,67 @@ CLOSE
 
 </div>
 
+</div>
+
 <script>
+
+/* =========================
+CONTRACT
+========================= */
+
+const contractAddress =
+"0xf94dF544419d2BF3550F544c94470DD48a6F48C4";
+
+const contractABI = [
+"function mintCV(string fullName,string xUsername,string discordId,string joiningDate,string[] roles) public"
+];
+
+let provider;
+let signer;
+let userAddress;
+
+/* =========================
+CONNECT WALLET
+========================= */
+
+async function connectWallet(){
+
+if(!window.ethereum){
+
+alert("MetaMask install karo");
+return;
+
+}
+
+try{
+
+provider =
+new ethers.BrowserProvider(window.ethereum);
+
+await provider.send("eth_requestAccounts",[]);
+
+signer =
+await provider.getSigner();
+
+userAddress =
+await signer.getAddress();
+
+document.getElementById("connectWalletBtn").innerHTML =
+`${userAddress.slice(0,6)}...${userAddress.slice(-4)}`;
+
+}catch(err){
+
+alert("Wallet connection failed");
+
+console.log(err);
+
+}
+
+}
+
+/* =========================
+UPDATE PREVIEW
+========================= */
 
 function updatePreview(){
 
@@ -424,9 +534,11 @@ document.getElementById('inputDiscord').value || "sarthak_pp";
 const date =
 document.getElementById('inputDate').value;
 
-document.getElementById('previewName').innerText = name;
+document.getElementById('previewName').innerText =
+name;
 
-document.getElementById('previewDiscord').innerText = discord;
+document.getElementById('previewDiscord').innerText =
+discord;
 
 if(date){
 
@@ -446,21 +558,22 @@ formatted;
 
 }
 
+/* =========================
+TWITTER PROFILE PIC
+========================= */
+
 async function handleXDetails(){
 
-const user =
+const username =
 document.getElementById('inputX').value || "sarthakct";
 
 document.getElementById('previewX').innerText =
-`@${user}`;
+`@${username}`;
 
 try{
 
-const url =
-`https://unavatar.io/x/${user}`;
-
 const response =
-await fetch(url);
+await fetch(`https://unavatar.io/x/${username}`);
 
 const blob =
 await response.blob();
@@ -480,11 +593,15 @@ reader.readAsDataURL(blob);
 }catch(err){
 
 document.getElementById('previewAvatar').src =
-`https://api.dicebear.com/7.x/initials/png?seed=${user}`;
+`https://api.dicebear.com/7.x/initials/png?seed=${username}`;
 
 }
 
 }
+
+/* =========================
+ROLES
+========================= */
 
 function updateRoles(){
 
@@ -493,10 +610,10 @@ document.getElementById('previewRoles');
 
 container.innerHTML = "";
 
-const roles =
+const checked =
 document.querySelectorAll('input[type="checkbox"]:checked');
 
-roles.forEach(role=>{
+checked.forEach(role=>{
 
 const badge =
 document.createElement('div');
@@ -507,7 +624,6 @@ badge.className =
 if(role.value==="Bitty"){
 
 badge.classList.add("border-blue-500","text-blue-400");
-
 badge.innerHTML = "BITTY 💧";
 
 }
@@ -515,7 +631,6 @@ badge.innerHTML = "BITTY 💧";
 if(role.value==="Ritty"){
 
 badge.classList.add("border-purple-500","text-purple-400");
-
 badge.innerHTML = "RITTY ✨";
 
 }
@@ -523,7 +638,6 @@ badge.innerHTML = "RITTY ✨";
 if(role.value==="Ritualist"){
 
 badge.classList.add("border-green-500","text-green-400");
-
 badge.innerHTML = "RITUALIST 🔥";
 
 }
@@ -531,7 +645,6 @@ badge.innerHTML = "RITUALIST 🔥";
 if(role.value==="Zealot"){
 
 badge.classList.add("border-fuchsia-500","text-fuchsia-400");
-
 badge.innerHTML = "ZEALOT ⚡";
 
 }
@@ -539,7 +652,6 @@ badge.innerHTML = "ZEALOT ⚡";
 if(role.value==="Radiant"){
 
 badge.classList.add("border-yellow-500","text-yellow-400");
-
 badge.innerHTML = "👑 RADIANT RITUALIST 👑";
 
 }
@@ -550,7 +662,20 @@ container.appendChild(badge);
 
 }
 
-function mintOnChainCV(){
+/* =========================
+REAL ONCHAIN MINT
+========================= */
+
+async function mintOnChainCV(){
+
+if(!signer){
+
+alert("Pehle wallet connect karo");
+return;
+
+}
+
+try{
 
 const modal =
 document.getElementById('statusModal');
@@ -559,16 +684,104 @@ modal.classList.remove('hidden');
 
 modal.classList.add('flex');
 
-const card =
-document.getElementById('livePreviewCard').cloneNode(true);
+/* PROCESSING UI */
 
-card.id = "downloadCard";
+document.getElementById('modalTitle').innerText =
+"Processing Transaction";
+
+document.getElementById('modalBody').innerText =
+"Confirm transaction in wallet...";
+
+document.getElementById('modalButtons').classList.add('hidden');
 
 document.getElementById('modalTargetCard').innerHTML = "";
 
+/* VALUES */
+
+const fullName =
+document.getElementById('inputName').value || "sarthak";
+
+const xUsername =
+document.getElementById('inputX').value || "sarthakct";
+
+const discordId =
+document.getElementById('inputDiscord').value || "sarthak_pp";
+
+const joiningDate =
+document.getElementById('previewDate').innerText;
+
+const roles = [];
+
+document
+.querySelectorAll('input[type="checkbox"]:checked')
+.forEach(cb=>roles.push(cb.value));
+
+/* CONTRACT */
+
+const contract =
+new ethers.Contract(
+contractAddress,
+contractABI,
+signer
+);
+
+/* SEND TX */
+
+const tx =
+await contract.mintCV(
+fullName,
+xUsername,
+discordId,
+joiningDate,
+roles
+);
+
+document.getElementById('modalBody').innerHTML =
+`Transaction Submitted<br><span class="text-green-400 text-sm break-all">${tx.hash}</span>`;
+
+/* WAIT */
+
+await tx.wait();
+
+/* SUCCESS */
+
+document.getElementById('modalTitle').innerHTML =
+"🎉 CONGRATULATIONS!";
+
+document.getElementById('modalBody').innerHTML =
+"Your Ritual CV has been minted successfully!";
+
+/* SHOW CARD */
+
+const card =
+document.getElementById('livePreviewCard').cloneNode(true);
+
+card.id =
+"downloadCard";
+
 document.getElementById('modalTargetCard').appendChild(card);
 
+/* SHOW BUTTONS */
+
+document.getElementById('modalButtons').classList.remove('hidden');
+
+}catch(err){
+
+console.log(err);
+
+document.getElementById('modalTitle').innerText =
+"Transaction Failed";
+
+document.getElementById('modalBody').innerText =
+err.reason || err.message;
+
 }
+
+}
+
+/* =========================
+DOWNLOAD CARD
+========================= */
 
 async function downloadCardImage(){
 
@@ -581,9 +794,7 @@ const canvas =
 await html2canvas(card,{
 
 useCORS:true,
-
 scale:3,
-
 backgroundColor:"#050505"
 
 });
@@ -594,11 +805,11 @@ canvas.toDataURL("image/png");
 const link =
 document.createElement('a');
 
-const username =
+const name =
 document.getElementById('inputName').value || "ritual";
 
 link.download =
-`${username}_ritual_card.png`;
+`${name}_ritual_card.png`;
 
 link.href =
 image;
@@ -614,6 +825,10 @@ console.log(err);
 }
 
 }
+
+/* =========================
+CLOSE MODAL
+========================= */
 
 function closeModal(){
 
