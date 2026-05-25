@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         body {
@@ -34,7 +35,6 @@
             to { box-shadow: 0 0 25px rgba(234, 179, 8, 0.9), inset 0 0 10px rgba(234, 179, 8, 0.5); }
         }
 
-        /* Background grid design */
         .bg-grid {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(239, 68, 68, 0.05) 1px, transparent 1px),
@@ -56,7 +56,8 @@
                     </svg>
                 </div>
                 <h1 class="text-xl sm:text-2xl font-bold tracking-wider text-white">
-                    RITUAL <span class="text-red-500">CV</                </h1>
+                    RITUAL <span class="text-red-500">CV</
+                </h1>
             </div>
             
             <button id="connectWalletBtn" onclick="connectWallet()" class="px-5 py-2 bg-transparent border border-red-600 hover:bg-red-600/20 text-red-500 hover:text-white rounded-xl font-medium transition-all duration-300 shadow-[0_0_10px_rgba(239,68,68,0.1)] text-sm sm:text-base">
@@ -131,8 +132,8 @@
             </div>
         </section>
 
-        <section class="lg:col-span-7 flex flex-col justify-between gap-6">
-            <div class="w-full bg-zinc-950 border-2 border-red-950 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl shadow-red-950/20 flex-grow">
+        <section class="lg:col-span-7 flex flex-col gap-6">
+            <div id="livePreviewCard" class="w-full bg-zinc-950 border-2 border-red-950 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl shadow-red-950/20">
                 <div class="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-red-600/20 rounded-tr-3xl pointer-events-none"></div>
                 <div class="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-red-600/20 rounded-bl-3xl pointer-events-none"></div>
 
@@ -140,7 +141,7 @@
                     <div class="flex items-center gap-4 w-full sm:w-auto">
                         <div class="relative group">
                             <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-amber-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-1000"></div>
-                            <img id="previewAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=ritual" alt="Avatar" 
+                            <img id="previewAvatar" crossorigin="anonymous" src="https://api.dicebear.com/7.x/bottts/svg?seed=ritual" alt="Avatar" 
                                 class="relative w-20 h-20 rounded-full border-2 border-red-500 bg-black object-cover transition-transform duration-300">
                         </div>
                         <div>
@@ -181,6 +182,15 @@
             <button onclick="mintOnChainCV()" class="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-bold py-4 rounded-2xl shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] transition-all duration-300 transform active:scale-[0.99] flex items-center justify-center gap-3 tracking-wider text-base sm:text-lg">
                 <i class="fa-solid fa-cubes-stacked"></i> MINT RITUAL ON-CHAIN CV
             </button>
+
+            <div id="downloadSection" class="hidden border border-zinc-800/80 bg-zinc-950/60 rounded-2xl p-4 text-center space-y-4 animate-fade-in">
+                <div class="text-green-500 font-semibold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> On-Chain ID Generated Successfully!
+                </div>
+                <button onclick="downloadCardImage()" class="w-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white font-medium py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-download text-red-500"></i> DOWNLOAD RITUAL CARD (.PNG)
+                </button>
+            </div>
         </section>
 
     </main>
@@ -199,10 +209,8 @@
     </div>
 
     <script>
-        // CONFIGURATION: Aapka actual deployed smart contract address humne niche set kar diya hai.
         const contractAddress = "0xf94dF544419d2BF3550F544c94470DD48a6F48C4"; 
 
-        // Smart Contract ABI Definition
         const contractABI = [
             "function mintCV(string fullName, string xUsername, string discordId, string joiningDate, string[] roles) public"
         ];
@@ -211,7 +219,6 @@
         let provider = null;
         let signer = null;
 
-        // Reactive Real-time inputs logic
         function updatePreview() {
             const name = document.getElementById('inputName').value.trim();
             const discord = document.getElementById('inputDiscord').value.trim();
@@ -230,7 +237,6 @@
             }
         }
 
-        // Fetching profile pic based on X input 
         function handleXDetails() {
             const xUser = document.getElementById('inputX').value.trim();
             const previewX = document.getElementById('previewX');
@@ -238,6 +244,7 @@
 
             if(xUser) {
                 previewX.innerText = `@${xUser}`;
+                // Using unavatar with unhindered CORS setup configuration
                 previewAvatar.src = `https://unavatar.io/twitter/${xUser}?fallback=https://api.dicebear.com/7.x/identicon/svg?seed=${xUser}`;
             } else {
                 previewX.innerText = "@username";
@@ -245,7 +252,6 @@
             }
         }
 
-        // Handle Active Selection of Roles
         function updateRoles() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const container = document.getElementById('previewRolesContainer');
@@ -285,7 +291,6 @@
             }
         }
 
-        // MULTI-WALLET CONFLICT FIXING CONNECT LOGIC
         async function connectWallet() {
             const btn = document.getElementById('connectWalletBtn');
             const activeProvider = window.ethereum?.providers?.find(p => p.isMetaMask) || window.ethereum;
@@ -310,7 +315,7 @@
                     resetWalletUI();
                 }
             } else {
-                alert("Web3 Wallet window injection missing! Please make sure your extension is active. Try running this file through a local environment like VS Code Live Server.");
+                alert("Web3 Wallet window injection missing! Please make sure your extension is active.");
             }
         }
 
@@ -321,7 +326,6 @@
             btn.className = "px-5 py-2 bg-transparent border border-red-600 hover:bg-red-600/20 text-red-500 hover:text-white rounded-xl font-medium transition-all duration-300 text-sm sm:text-base";
         }
 
-        // REAL SMART CONTRACT MINT TRANSACTION METHOD
         async function mintOnChainCV() {
             const modal = document.getElementById('statusModal');
             const icon = document.getElementById('modalIcon');
@@ -333,41 +337,36 @@
                 return;
             }
 
-            // Fetch current state inputs
             const fullName = document.getElementById('inputName').value.trim() || "Sarthak Pandey";
             const xUsername = document.getElementById('inputX').value.trim() || "username";
             const discordId = document.getElementById('inputDiscord').value.trim() || "—";
             const joiningDate = document.getElementById('inputDate').value || "—";
             
-            // Collect roles
             const roles = [];
             document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => roles.push(cb.value));
 
-            // Launch Status Modal
             modal.classList.remove('hidden');
             icon.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-red-500"></i>`;
             title.innerText = "Confirm in Wallet...";
             body.innerText = "Please open your wallet extension popup to sign and authorize the contract interaction.";
 
             try {
-                // Initialize Contract Instance using Ethers.js
                 const contract = new ethers.Contract(contractAddress, contractABI, signer);
-                
-                // Execute Contract Write Call 
                 const tx = await contract.mintCV(fullName, xUsername, discordId, joiningDate, roles);
                 
-                // Update UI state to pending block indexing
                 title.innerText = "Transaction Pending...";
                 body.innerHTML = `Transaction broadcasted successfully! Waiting for block validation... <br><span class="text-zinc-500 text-xs font-mono break-all mt-2 block">Hash: ${tx.hash}</span>`;
                 
-                // Wait for miners confirmation 
                 const receipt = await tx.wait();
                 
-                // Success Trigger UI state update
+                // On success: Reveal Download Section
                 icon.innerHTML = `<i class="fa-solid fa-award text-yellow-500 text-3xl"></i>`;
                 icon.className = "w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500/40 shadow-[0_0_15px_rgba(234,179,8,0.4)]";
                 title.innerText = "CV Minted Successfully!";
-                body.innerHTML = `Your data matrix has successfully synced with the Ritual Testnet blocks.<br><a href="https://maple.ritual.net/tx/${receipt.hash}" target="_blank" class="text-red-500 text-xs font-mono underline block mt-2">View Verified Transaction Receipt</a>`;
+                body.innerHTML = `Your data matrix has successfully synced with the Ritual Testnet blocks.`;
+
+                // Unhide the card download options menu
+                document.getElementById('downloadSection').classList.remove('hidden');
 
             } catch (err) {
                 console.error(err);
@@ -375,6 +374,30 @@
                 title.innerText = "Transaction Cancelled";
                 body.innerText = err.reason || err.message || "User denied transaction signature or execution reverted.";
             }
+        }
+
+        // HTML TO IMAGE PNG GENERATION METHOD
+        function downloadCardImage() {
+            const cardElement = document.getElementById('livePreviewCard');
+            
+            // Temporary scale setup for high dynamic resolution download quality
+            html2canvas(cardElement, {
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: "#050505",
+                scale: 2 
+            }).then(canvas => {
+                const image = canvas.toDataURL("image/png");
+                const link = document.createElement('a');
+                
+                const nameInput = document.getElementById('inputName').value.trim() || "Ritual";
+                link.download = `${nameInput.toLowerCase()}_ritual_card.png`;
+                link.href = image;
+                link.click();
+            }).catch(err => {
+                console.error("Card capture generation failed:", err);
+                alert("Error rendering card image. Please ensure your avatar/image links are fully loaded.");
+            });
         }
 
         function closeModal() {
