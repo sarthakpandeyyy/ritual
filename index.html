@@ -56,7 +56,7 @@
                     </svg>
                 </div>
                 <h1 class="text-xl sm:text-2xl font-bold tracking-wider text-white">
-                    RITUAL <span class="text-red-500">CV</
+                    RITUAL <span class="text-red-500">CV</span> WEBSITE
                 </h1>
             </div>
             
@@ -132,8 +132,8 @@
             </div>
         </section>
 
-        <section class="lg:col-span-7 flex flex-col gap-6">
-            <div id="livePreviewCard" class="w-full bg-zinc-950 border-2 border-red-950 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl shadow-red-950/20">
+        <section class="lg:col-span-7 flex flex-col justify-between gap-6">
+            <div id="livePreviewCard" class="w-full bg-zinc-950 border-2 border-red-950 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl shadow-red-950/20 flex-grow">
                 <div class="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-red-600/20 rounded-tr-3xl pointer-events-none"></div>
                 <div class="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-red-600/20 rounded-bl-3xl pointer-events-none"></div>
 
@@ -141,7 +141,7 @@
                     <div class="flex items-center gap-4 w-full sm:w-auto">
                         <div class="relative group">
                             <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-amber-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-1000"></div>
-                            <img id="previewAvatar" crossorigin="anonymous" src="https://api.dicebear.com/7.x/bottts/svg?seed=ritual" alt="Avatar" 
+                            <img id="previewAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=ritual" alt="Avatar" 
                                 class="relative w-20 h-20 rounded-full border-2 border-red-500 bg-black object-cover transition-transform duration-300">
                         </div>
                         <div>
@@ -182,29 +182,32 @@
             <button onclick="mintOnChainCV()" class="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-bold py-4 rounded-2xl shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] transition-all duration-300 transform active:scale-[0.99] flex items-center justify-center gap-3 tracking-wider text-base sm:text-lg">
                 <i class="fa-solid fa-cubes-stacked"></i> MINT RITUAL ON-CHAIN CV
             </button>
-
-            <div id="downloadSection" class="hidden border border-zinc-800/80 bg-zinc-950/60 rounded-2xl p-4 text-center space-y-4 animate-fade-in">
-                <div class="text-green-500 font-semibold text-sm flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-circle-check"></i> On-Chain ID Generated Successfully!
-                </div>
-                <button onclick="downloadCardImage()" class="w-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white font-medium py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base">
-                    <i class="fa-solid fa-download text-red-500"></i> DOWNLOAD RITUAL CARD (.PNG)
-                </button>
-            </div>
         </section>
 
     </main>
 
-    <div id="statusModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-zinc-950 border-2 border-red-500 max-w-md w-full rounded-2xl p-6 text-center shadow-[0_0_50px_rgba(239,68,68,0.3)] transform scale-95 transition-transform">
-            <div id="modalIcon" class="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 border border-red-500/30">
-                <i class="fa-solid fa-circle-notch"></i>
+    <div id="statusModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-zinc-950 border-2 border-red-500 max-w-xl w-full rounded-3xl p-6 text-center shadow-[0_0_60px_rgba(239,68,68,0.4)] transform scale-95 transition-transform my-8">
+            
+            <div id="modalStatusHeader" class="mb-4">
+                <div id="modalIcon" class="w-14 h-14 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center text-xl mx-auto mb-3 border border-red-500/30">
+                    <i class="fa-solid fa-circle-notch animate-spin"></i>
+                </div>
+                <h4 id="modalTitle" class="text-xl font-bold text-white mb-1">Processing Transaction</h4>
+                <p id="modalBody" class="text-xs text-zinc-400">Communicating with wallet extension...</p>
             </div>
-            <h4 id="modalTitle" class="text-xl font-bold text-white mb-2">Processing Transaction</h4>
-            <p id="modalBody" class="text-sm text-zinc-400 mb-6">Communicating with wallet extension...</p>
-            <button onclick="closeModal()" class="px-6 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 rounded-xl text-sm transition-colors">
-                Close
-            </button>
+
+            <div id="modalCardHolder" class="hidden my-6 border border-zinc-900 rounded-2xl overflow-hidden shadow-inner p-1 bg-black">
+                </div>
+
+            <div class="flex flex-col gap-3">
+                <button id="modalDownloadBtn" onclick="downloadCardImage()" class="hidden w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(34,197,94,0.2)] flex items-center justify-center gap-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-file-arrow-down"></i> DOWNLOAD RITUAL CARD (.PNG)
+                </button>
+                <button onclick="closeModal()" class="w-full px-6 py-2.5 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-xl text-sm transition-colors">
+                    Close Window
+                </button>
+            </div>
         </div>
     </div>
 
@@ -218,6 +221,7 @@
         let userAddress = null;
         let provider = null;
         let signer = null;
+        let base64AvatarData = ""; // Stores processed safe avatar string 
 
         function updatePreview() {
             const name = document.getElementById('inputName').value.trim();
@@ -237,6 +241,7 @@
             }
         }
 
+        // Twitter safe processing avatar bridge logic 
         function handleXDetails() {
             const xUser = document.getElementById('inputX').value.trim();
             const previewX = document.getElementById('previewX');
@@ -244,11 +249,31 @@
 
             if(xUser) {
                 previewX.innerText = `@${xUser}`;
-                // Using unavatar with unhindered CORS setup configuration
-                previewAvatar.src = `https://unavatar.io/twitter/${xUser}?fallback=https://api.dicebear.com/7.x/identicon/svg?seed=${xUser}`;
+                
+                // Using cors proxy gateway explicitly tailored to bypass HTML5 Canvas taint flags
+                const proxyUrl = `https://images.weserv.nl/?url=https://unavatar.io/twitter/${xUser}?fallback=https://api.dicebear.com/7.x/identicon/png?seed=${xUser}`;
+                
+                // Prefetching image and saving as clean DataURL string to absolutely secure html2canvas execution
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.onload = function() {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = this.width;
+                    canvas.height = this.height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(this, 0, 0);
+                    base64AvatarData = canvas.toDataURL("image/png");
+                    previewAvatar.src = base64AvatarData;
+                };
+                img.onerror = function() {
+                    previewAvatar.src = `https://api.dicebear.com/7.x/bottts/png?seed=${xUser}`;
+                    base64AvatarData = "";
+                };
+                img.src = proxyUrl;
             } else {
                 previewX.innerText = "@username";
-                previewAvatar.src = "https://api.dicebear.com/7.x/bottts/svg?seed=ritual";
+                previewAvatar.src = "https://api.dicebear.com/7.x/bottts/png?seed=ritual";
+                base64AvatarData = "";
             }
         }
 
@@ -331,6 +356,8 @@
             const icon = document.getElementById('modalIcon');
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
+            const cardHolder = document.getElementById('modalCardHolder');
+            const dlBtn = document.getElementById('modalDownloadBtn');
 
             if (!userAddress || !signer) {
                 alert("Please connect your Web3 wallet first!");
@@ -344,6 +371,11 @@
             
             const roles = [];
             document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => roles.push(cb.value));
+
+            // Reset modal layout views
+            cardHolder.innerHTML = "";
+            cardHolder.classList.add('hidden');
+            dlBtn.classList.add('hidden');
 
             modal.classList.remove('hidden');
             icon.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-red-500"></i>`;
@@ -359,14 +391,25 @@
                 
                 const receipt = await tx.wait();
                 
-                // On success: Reveal Download Section
-                icon.innerHTML = `<i class="fa-solid fa-award text-yellow-500 text-3xl"></i>`;
-                icon.className = "w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500/40 shadow-[0_0_15px_rgba(234,179,8,0.4)]";
+                // MINT SUCCESS: Load the custom card into popup structure
+                icon.innerHTML = `<i class="fa-solid fa-circle-check text-green-500 text-3xl"></i>`;
+                icon.className = "w-14 h-14 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.3)]";
                 title.innerText = "CV Minted Successfully!";
-                body.innerHTML = `Your data matrix has successfully synced with the Ritual Testnet blocks.`;
+                body.innerHTML = `Your data matrix has successfully synced with Ritual Testnet.<br><a href="https://maple.ritual.net/tx/${receipt.hash}" target="_blank" class="text-red-500 text-xs underline mt-1 inline-block">View Tx Receipt</a>`;
 
-                // Unhide the card download options menu
-                document.getElementById('downloadSection').classList.remove('hidden');
+                // Clone dashboard preview card view safely inside the modal workspace
+                const originalCard = document.getElementById('livePreviewCard');
+                const clonedCard = originalCard.cloneNode(true);
+                clonedCard.id = "modalTargetCard"; 
+                
+                // Force sync safe avatar image address inside the cloned structure
+                if (base64AvatarData) {
+                    clonedCard.querySelector('#previewAvatar').src = base64AvatarData;
+                }
+
+                cardHolder.appendChild(clonedCard);
+                cardHolder.classList.remove('hidden');
+                dlBtn.classList.remove('hidden');
 
             } catch (err) {
                 console.error(err);
@@ -376,14 +419,13 @@
             }
         }
 
-        // HTML TO IMAGE PNG GENERATION METHOD
         function downloadCardImage() {
-            const cardElement = document.getElementById('livePreviewCard');
+            // Target the processed card loaded inside popup structure 
+            const targetCard = document.getElementById('modalTargetCard') || document.getElementById('livePreviewCard');
             
-            // Temporary scale setup for high dynamic resolution download quality
-            html2canvas(cardElement, {
+            html2canvas(targetCard, {
                 useCORS: true,
-                allowTaint: true,
+                allowTaint: false,
                 backgroundColor: "#050505",
                 scale: 2 
             }).then(canvas => {
@@ -396,7 +438,7 @@
                 link.click();
             }).catch(err => {
                 console.error("Card capture generation failed:", err);
-                alert("Error rendering card image. Please ensure your avatar/image links are fully loaded.");
+                alert("Error rendering card image. Trying backup system snapshot...");
             });
         }
 
