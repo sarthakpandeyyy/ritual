@@ -68,7 +68,7 @@
 
     <main class="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         
-        <section class="lg:col-span-5 bg-black/80 border border-zinc-800/80 rounded-2xl p-6 glow-red transition-all duration-500">
+        <section class="lg:col-span-5 bg-black/80 border border-zinc-800/80 rounded-2xl p-6 glow-red">
             <h2 class="text-lg font-semibold text-red-500 mb-6 flex items-center gap-2 border-b border-zinc-800 pb-3">
                 <i class="fa-solid fa-sliders text-sm"></i> Enter Your Ritual Credentials
             </h2>
@@ -76,7 +76,7 @@
             <div class="space-y-5">
                 <div>
                     <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Full Name</label>
-                    <input type="text" id="inputName" oninput="updatePreview()" placeholder="Sarthak Pandey" 
+                    <input type="text" id="inputName" oninput="updatePreview()" placeholder="Sarthak" 
                         class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors">
                 </div>
 
@@ -84,7 +84,7 @@
                     <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">X (Twitter) Username</label>
                     <div class="relative">
                         <span class="absolute left-4 top-3.5 text-zinc-500">@</span>
-                        <input type="text" id="inputX" oninput="handleXDetails()" placeholder="username" 
+                        <input type="text" id="inputX" oninput="handleXDetails()" placeholder="sarthakct" 
                             class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl pl-9 pr-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors">
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Discord ID</label>
                     <div class="relative">
                         <span class="absolute left-4 top-3.5 text-zinc-500"><i class="fa-brands fa-discord"></i></span>
-                        <input type="text" id="inputDiscord" oninput="updatePreview()" placeholder="username#0000" 
+                        <input type="text" id="inputDiscord" oninput="updatePreview()" placeholder="sarthak" 
                             class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors">
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                         </label>
                         <label class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-xl p-3 cursor-pointer hover:border-yellow-500/50 transition-all col-span-1 sm:col-span-2">
                             <input type="checkbox" value="Radiant" onchange="updateRoles()" class="accent-yellow-500 w-4 h-4">
-                            <span class="text-sm font-bold text-yellow-500 tracking-wide animate-pulse">Radiant Ritualist 🌟👑</span>
+                            <span class="text-sm font-bold text-yellow-500 tracking-wide">Radiant Ritualist 🌟👑</span>
                         </label>
                     </div>
                 </div>
@@ -139,14 +139,15 @@
 
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-zinc-900 pb-6">
                     <div class="flex items-center gap-4 w-full sm:w-auto">
-                        <div class="relative group">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-amber-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-1000"></div>
-                            <img id="previewAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=ritual" alt="Avatar" 
-                                class="relative w-20 h-20 rounded-full border-2 border-red-500 bg-black object-cover transition-transform duration-300">
+                        <div class="relative">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-amber-500 rounded-full blur opacity-50"></div>
+                            <div id="avatarBadge" class="relative w-20 h-20 rounded-full border-2 border-red-500 bg-zinc-900 flex items-center justify-center text-3xl font-bold text-white uppercase tracking-wider">
+                                S
+                            </div>
                         </div>
                         <div>
-                            <h3 id="previewName" class="text-2xl font-bold text-white tracking-wide">Sarthak Pandey</h3>
-                            <p id="previewX" class="text-sm text-zinc-500">@username</p>
+                            <h3 id="previewName" class="text-2xl font-bold text-white tracking-wide">Sarthak</h3>
+                            <p id="previewX" class="text-sm text-red-500 font-medium font-mono">@sarthakct</p>
                         </div>
                     </div>
                     <div class="bg-red-950/40 border border-red-800/60 rounded-xl px-4 py-1.5 text-center w-full sm:w-auto">
@@ -179,15 +180,15 @@
                 </div>
             </div>
 
-            <button onclick="mintOnChainCV()" class="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-bold py-4 rounded-2xl shadow-[0_0_30px_rgba(220,38,38,0.2)] hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] transition-all duration-300 transform active:scale-[0.99] flex items-center justify-center gap-3 tracking-wider text-base sm:text-lg">
+            <button onclick="mintOnChainCV()" class="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white font-bold py-4 rounded-2xl shadow-[0_0_30px_rgba(220,38,38,0.2)] transition-all duration-300 transform active:scale-[0.99] flex items-center justify-center gap-3 tracking-wider text-base sm:text-lg">
                 <i class="fa-solid fa-cubes-stacked"></i> MINT RITUAL ON-CHAIN CV
             </button>
         </section>
 
     </main>
 
-    <div id="statusModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
-        <div class="bg-zinc-950 border-2 border-red-500 max-w-xl w-full rounded-3xl p-6 text-center shadow-[0_0_60px_rgba(239,68,68,0.4)] transform scale-95 transition-transform my-8">
+    <div id="statusModal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-zinc-950 border-2 border-red-500 max-w-xl w-full rounded-3xl p-6 text-center shadow-[0_0_60px_rgba(239,68,68,0.5)] transform scale-95 transition-transform my-8">
             
             <div id="modalStatusHeader" class="mb-4">
                 <div id="modalIcon" class="w-14 h-14 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center text-xl mx-auto mb-3 border border-red-500/30">
@@ -197,11 +198,11 @@
                 <p id="modalBody" class="text-xs text-zinc-400">Communicating with wallet extension...</p>
             </div>
 
-            <div id="modalCardHolder" class="hidden my-6 border border-zinc-900 rounded-2xl overflow-hidden shadow-inner p-1 bg-black">
+            <div id="modalCardHolder" class="hidden my-6 border border-zinc-900 rounded-2xl overflow-hidden p-0.5 bg-black">
                 </div>
 
             <div class="flex flex-col gap-3">
-                <button id="modalDownloadBtn" onclick="downloadCardImage()" class="hidden w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(34,197,94,0.2)] flex items-center justify-center gap-2 text-sm sm:text-base">
+                <button id="modalDownloadBtn" onclick="downloadCardImage()" class="hidden w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(34,197,94,0.3)] flex items-center justify-center gap-2 text-sm sm:text-base">
                     <i class="fa-solid fa-file-arrow-down"></i> DOWNLOAD RITUAL CARD (.PNG)
                 </button>
                 <button onclick="closeModal()" class="w-full px-6 py-2.5 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-xl text-sm transition-colors">
@@ -221,14 +222,13 @@
         let userAddress = null;
         let provider = null;
         let signer = null;
-        let base64AvatarData = ""; // Stores processed safe avatar string 
 
         function updatePreview() {
             const name = document.getElementById('inputName').value.trim();
             const discord = document.getElementById('inputDiscord').value.trim();
             const date = document.getElementById('inputDate').value;
 
-            document.getElementById('previewName').innerText = name ? name : "Sarthak Pandey";
+            document.getElementById('previewName').innerText = name ? name : "Sarthak";
             document.getElementById('previewDiscord').innerText = discord ? discord : "—";
             
             if (date) {
@@ -241,39 +241,18 @@
             }
         }
 
-        // Twitter safe processing avatar bridge logic 
+        // Clean static cross-origin bugfix for immediate seamless renders
         function handleXDetails() {
             const xUser = document.getElementById('inputX').value.trim();
             const previewX = document.getElementById('previewX');
-            const previewAvatar = document.getElementById('previewAvatar');
+            const badge = document.getElementById('avatarBadge');
 
             if(xUser) {
                 previewX.innerText = `@${xUser}`;
-                
-                // Using cors proxy gateway explicitly tailored to bypass HTML5 Canvas taint flags
-                const proxyUrl = `https://images.weserv.nl/?url=https://unavatar.io/twitter/${xUser}?fallback=https://api.dicebear.com/7.x/identicon/png?seed=${xUser}`;
-                
-                // Prefetching image and saving as clean DataURL string to absolutely secure html2canvas execution
-                const img = new Image();
-                img.crossOrigin = "Anonymous";
-                img.onload = function() {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = this.width;
-                    canvas.height = this.height;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(this, 0, 0);
-                    base64AvatarData = canvas.toDataURL("image/png");
-                    previewAvatar.src = base64AvatarData;
-                };
-                img.onerror = function() {
-                    previewAvatar.src = `https://api.dicebear.com/7.x/bottts/png?seed=${xUser}`;
-                    base64AvatarData = "";
-                };
-                img.src = proxyUrl;
+                badge.innerText = xUser.substring(0, 2); // Pulls pristine identifier letter asset onto text layer
             } else {
-                previewX.innerText = "@username";
-                previewAvatar.src = "https://api.dicebear.com/7.x/bottts/png?seed=ritual";
-                base64AvatarData = "";
+                previewX.innerText = "@sarthakct";
+                badge.innerText = "S";
             }
         }
 
@@ -330,7 +309,6 @@
                     signer = await provider.getSigner();
 
                     const shortenedAddress = `${userAddress.substring(0, 6)}...${userAddress.substring(userAddress.length - 4)}`;
-                    
                     btn.innerHTML = `<i class="fa-solid fa-circle-check text-green-500 mr-2"></i> ${shortenedAddress}`;
                     btn.className = "px-5 py-2 bg-transparent border border-green-600 text-green-400 rounded-xl font-medium transition-all duration-300 text-sm sm:text-base";
                     
@@ -364,15 +342,14 @@
                 return;
             }
 
-            const fullName = document.getElementById('inputName').value.trim() || "Sarthak Pandey";
-            const xUsername = document.getElementById('inputX').value.trim() || "username";
+            const fullName = document.getElementById('inputName').value.trim() || "Sarthak";
+            const xUsername = document.getElementById('inputX').value.trim() || "sarthakct";
             const discordId = document.getElementById('inputDiscord').value.trim() || "—";
             const joiningDate = document.getElementById('inputDate').value || "—";
             
             const roles = [];
             document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => roles.push(cb.value));
 
-            // Reset modal layout views
             cardHolder.innerHTML = "";
             cardHolder.classList.add('hidden');
             dlBtn.classList.add('hidden');
@@ -391,21 +368,15 @@
                 
                 const receipt = await tx.wait();
                 
-                // MINT SUCCESS: Load the custom card into popup structure
                 icon.innerHTML = `<i class="fa-solid fa-circle-check text-green-500 text-3xl"></i>`;
-                icon.className = "w-14 h-14 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.3)]";
+                icon.className = "w-14 h-14 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-500/30";
                 title.innerText = "CV Minted Successfully!";
                 body.innerHTML = `Your data matrix has successfully synced with Ritual Testnet.<br><a href="https://maple.ritual.net/tx/${receipt.hash}" target="_blank" class="text-red-500 text-xs underline mt-1 inline-block">View Tx Receipt</a>`;
 
-                // Clone dashboard preview card view safely inside the modal workspace
+                // CLONE FRESH CLEAN DESIGN DOM INTO THE MODAL CONTAINER FOR MINTED VIEW
                 const originalCard = document.getElementById('livePreviewCard');
                 const clonedCard = originalCard.cloneNode(true);
                 clonedCard.id = "modalTargetCard"; 
-                
-                // Force sync safe avatar image address inside the cloned structure
-                if (base64AvatarData) {
-                    clonedCard.querySelector('#previewAvatar').src = base64AvatarData;
-                }
 
                 cardHolder.appendChild(clonedCard);
                 cardHolder.classList.remove('hidden');
@@ -420,25 +391,25 @@
         }
 
         function downloadCardImage() {
-            // Target the processed card loaded inside popup structure 
             const targetCard = document.getElementById('modalTargetCard') || document.getElementById('livePreviewCard');
             
+            // Clean dynamic parameters lock to prevent CORS taint bugs
             html2canvas(targetCard, {
-                useCORS: true,
-                allowTaint: false,
+                useCORS: false,
+                allowTaint: true,
                 backgroundColor: "#050505",
-                scale: 2 
+                scale: 3
             }).then(canvas => {
                 const image = canvas.toDataURL("image/png");
                 const link = document.createElement('a');
-                
                 const nameInput = document.getElementById('inputName').value.trim() || "Ritual";
+                
                 link.download = `${nameInput.toLowerCase()}_ritual_card.png`;
                 link.href = image;
                 link.click();
             }).catch(err => {
                 console.error("Card capture generation failed:", err);
-                alert("Error rendering card image. Trying backup system snapshot...");
+                alert("Render processing glitch. Try clearing cache or change inputs.");
             });
         }
 
